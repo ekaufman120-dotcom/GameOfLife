@@ -28,10 +28,12 @@ public class GameOfLifeApp extends JFrame {
     private static final int COLS = 45;
     private static final int DELAY = 100; // delay in milliseconds
 
-    private final GameOfLife game;
+    private GameOfLife game;
     private final JButton[][] cells;
+    private GameOfLife previousState;
 
     private final JButton startButton;
+    private final JButton resetButton;
     private final JLabel generationLabel;
     private final JLabel dimensionLabel;
     private final JLabel statusLabel;
@@ -39,6 +41,7 @@ public class GameOfLifeApp extends JFrame {
 
     private final Timer timer;
     private int generation;
+    private int lastGeneration;
 
     public GameOfLifeApp() {
         super("Conway's Game of Life - 2D Arrays");
@@ -47,6 +50,7 @@ public class GameOfLifeApp extends JFrame {
         cells = new JButton[ROWS][COLS];
 
         startButton = new JButton("Start");
+        resetButton = new JButton("Reset");
         generationLabel = new JLabel("Generation: 0");
         dimensionLabel = new JLabel("Dimensions: " + ROWS + " x " + COLS);
         statusLabel = new JLabel("Click cells to create a pattern, or add a glider.");
@@ -87,12 +91,14 @@ public class GameOfLifeApp extends JFrame {
         stepButton.addActionListener(e -> stepGeneration());
         startButton.addActionListener(e -> toggleAnimation());
         clearButton.addActionListener(e -> clearBoard());
+        resetButton.addActionListener(e -> resetBoard());
         gliderButton.addActionListener(e -> addGlider());
         
         controls.add(dimensionLabel);
         controls.add(stepButton);
         controls.add(startButton);
         controls.add(clearButton);
+        controls.add(resetButton);
         controls.add(gliderButton);
         controls.add(generationLabel);
         return controls;
@@ -186,6 +192,15 @@ public class GameOfLifeApp extends JFrame {
                 return;
             }
 
+            lastGeneration = generation;
+            previousState = new GameOfLife(game.numberOfRows(), game.numberOfColumns());
+            for (int row = 0; row < game.numberOfRows(); row++) {
+                for (int col = 0; col < game.numberOfColumns(); col++) {
+                    if (game.cellAt(row, col)) {
+                        previousState.growCellAt(row, col);
+                    }
+                }
+            }
             timer.start();
             startButton.setText("Stop");
             statusLabel.setText("Animation running...");
@@ -203,6 +218,14 @@ public class GameOfLifeApp extends JFrame {
         generation = 0;
         refreshDisplay();
         statusLabel.setText("Board cleared.");
+    }
+
+    private void resetBoard() {
+        stopAnimation();
+        game = previousState;
+        generation = lastGeneration;
+        refreshDisplay();
+        statusLabel.setText("Board reset.");
     }
 
     private void addGlider() {
