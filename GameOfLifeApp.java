@@ -140,10 +140,10 @@ public class GameOfLifeApp extends JFrame {
     }
 
     private void toggleCell(int row, int col) {
-        if (timer.isRunning()) {
+        /* (timer.isRunning()) {
             statusLabel.setText("Stop the animation before editing individual cells.");
             return;
-        }
+        }*/
 
         if (game.cellAt(row, col)) {
             game.killCellAt(row, col);
@@ -206,8 +206,6 @@ public class GameOfLifeApp extends JFrame {
     }
 
     private void addGlider() {
-        stopAnimation();
-        game.clear();
         generation = 0;
 
         // Standard five-cell glider, placed away from the walls.
