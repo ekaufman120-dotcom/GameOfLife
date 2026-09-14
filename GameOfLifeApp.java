@@ -25,7 +25,7 @@ import javax.swing.Timer;
 public class GameOfLifeApp extends JFrame {
 
     private static final int ROWS = 30;
-    private static final int COLS = 50;
+    private static final int COLS = 45;
     private static final int DELAY = 100; // delay in milliseconds
 
     private final GameOfLife game;
@@ -33,6 +33,7 @@ public class GameOfLifeApp extends JFrame {
 
     private final JButton startButton;
     private final JLabel generationLabel;
+    private final JLabel dimensionLabel;
     private final JLabel statusLabel;
     private final JTextArea textView;
 
@@ -47,6 +48,7 @@ public class GameOfLifeApp extends JFrame {
 
         startButton = new JButton("Start");
         generationLabel = new JLabel("Generation: 0");
+        dimensionLabel = new JLabel("Dimensions: " + ROWS + " x " + COLS);
         statusLabel = new JLabel("Click cells to create a pattern, or add a glider.");
         textView = new JTextArea();
 
@@ -86,13 +88,13 @@ public class GameOfLifeApp extends JFrame {
         startButton.addActionListener(e -> toggleAnimation());
         clearButton.addActionListener(e -> clearBoard());
         gliderButton.addActionListener(e -> addGlider());
-
+        
+        controls.add(dimensionLabel);
         controls.add(stepButton);
         controls.add(startButton);
         controls.add(clearButton);
         controls.add(gliderButton);
         controls.add(generationLabel);
-
         return controls;
     }
 
