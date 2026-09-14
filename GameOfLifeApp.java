@@ -248,7 +248,7 @@ public class GameOfLifeApp extends JFrame {
     private boolean touchesWall() {
         int lastRow = game.numberOfRows() - 1;
         int lastCol = game.numberOfColumns() - 1;
-
+        /*
         for (int col = 0; col < game.numberOfColumns(); col++) {
             if (game.cellAt(0, col) || game.cellAt(lastRow, col)) {
                 return true;
@@ -259,7 +259,7 @@ public class GameOfLifeApp extends JFrame {
             if (game.cellAt(row, 0) || game.cellAt(row, lastCol)) {
                 return true;
             }
-        }
+        }*/
 
         return false;
     }
