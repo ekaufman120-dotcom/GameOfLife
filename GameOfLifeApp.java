@@ -229,8 +229,6 @@ public class GameOfLifeApp extends JFrame {
     }
 
     private void addGlider() {
-        generation = 0;
-
         // Standard five-cell glider, placed away from the walls.
         int row = 2;
         int col = 2;
