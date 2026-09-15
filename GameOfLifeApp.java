@@ -26,7 +26,7 @@ public class GameOfLifeApp extends JFrame {
 
     private static final int ROWS = 30;
     private static final int COLS = 45;
-    private static final int DELAY = 10; // delay in milliseconds
+    private static final int DELAY = 50; // delay in milliseconds
 
     private GameOfLife game;
     private final JButton[][] cells;
