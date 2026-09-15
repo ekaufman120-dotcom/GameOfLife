@@ -26,7 +26,7 @@ public class GameOfLifeApp extends JFrame {
 
     private static final int ROWS = 30;
     private static final int COLS = 45;
-    private static final int DELAY = 100; // delay in milliseconds
+    private static final int DELAY = 10; // delay in milliseconds
 
     private GameOfLife game;
     private final JButton[][] cells;
@@ -35,6 +35,7 @@ public class GameOfLifeApp extends JFrame {
     private final JButton startButton;
     private final JButton resetButton;
     private final JButton invertButton;
+    private final JButton randomizeButton;
     private final JLabel generationLabel;
     private final JLabel dimensionLabel;
     private final JLabel statusLabel;
@@ -52,6 +53,7 @@ public class GameOfLifeApp extends JFrame {
 
         startButton = new JButton("Start");
         resetButton = new JButton("Reset");
+        randomizeButton = new JButton("Randomize");
         invertButton = new JButton("Invert");
         generationLabel = new JLabel("Generation: 0");
         dimensionLabel = new JLabel("Dimensions: " + ROWS + " x " + COLS);
@@ -96,6 +98,7 @@ public class GameOfLifeApp extends JFrame {
         resetButton.addActionListener(e -> resetBoard());
         gliderButton.addActionListener(e -> addGlider());
         invertButton.addActionListener(e -> invertBoard());
+        randomizeButton.addActionListener(e -> randomizeBoard());
         controls.add(dimensionLabel);
         controls.add(stepButton);
         controls.add(startButton);
@@ -103,6 +106,7 @@ public class GameOfLifeApp extends JFrame {
         controls.add(resetButton);
         controls.add(gliderButton);
         controls.add(invertButton);
+        controls.add(randomizeButton);
         controls.add(generationLabel);
         return controls;
     }
@@ -247,9 +251,10 @@ public class GameOfLifeApp extends JFrame {
     }
 
     private boolean touchesWall() {
+        /*
         int lastRow = game.numberOfRows() - 1;
         int lastCol = game.numberOfColumns() - 1;
-        /*
+        
         for (int col = 0; col < game.numberOfColumns(); col++) {
             if (game.cellAt(0, col) || game.cellAt(lastRow, col)) {
                 return true;
@@ -295,6 +300,22 @@ public class GameOfLifeApp extends JFrame {
         }
         refreshDisplay();
         statusLabel.setText("Board inverted.");
+    }
+
+    private void randomizeBoard() {
+        double random = Math.random();
+        for (int row = 0; row < game.numberOfRows(); row++) {
+            for (int col = 0; col < game.numberOfColumns(); col++) {
+                if (Math.random() < random) {
+                    game.growCellAt(row, col);
+                }
+                else {
+                    game.killCellAt(row, col);
+                }
+            }
+        }
+        refreshDisplay();
+        statusLabel.setText("Board randomized.");
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
