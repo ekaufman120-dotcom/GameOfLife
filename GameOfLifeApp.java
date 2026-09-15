@@ -34,6 +34,7 @@ public class GameOfLifeApp extends JFrame {
 
     private final JButton startButton;
     private final JButton resetButton;
+    private final JButton invertButton;
     private final JLabel generationLabel;
     private final JLabel dimensionLabel;
     private final JLabel statusLabel;
@@ -51,6 +52,7 @@ public class GameOfLifeApp extends JFrame {
 
         startButton = new JButton("Start");
         resetButton = new JButton("Reset");
+        invertButton = new JButton("Invert");
         generationLabel = new JLabel("Generation: 0");
         dimensionLabel = new JLabel("Dimensions: " + ROWS + " x " + COLS);
         statusLabel = new JLabel("Click cells to create a pattern, or add a glider.");
@@ -93,13 +95,14 @@ public class GameOfLifeApp extends JFrame {
         clearButton.addActionListener(e -> clearBoard());
         resetButton.addActionListener(e -> resetBoard());
         gliderButton.addActionListener(e -> addGlider());
-        
+        invertButton.addActionListener(e -> invertBoard());
         controls.add(dimensionLabel);
         controls.add(stepButton);
         controls.add(startButton);
         controls.add(clearButton);
         controls.add(resetButton);
         controls.add(gliderButton);
+        controls.add(invertButton);
         controls.add(generationLabel);
         return controls;
     }
@@ -279,6 +282,20 @@ public class GameOfLifeApp extends JFrame {
         textView.setCaretPosition(0);
     }
 
+    private void invertBoard() {
+        for (int row = 0; row < game.numberOfRows(); row++) {
+            for (int col = 0; col < game.numberOfColumns(); col++) {
+                if (game.cellAt(row, col)) {
+                    game.killCellAt(row, col);
+                }
+                else {
+                    game.growCellAt(row, col);
+                }
+            }
+        }
+        refreshDisplay();
+        statusLabel.setText("Board inverted.");
+    }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             GameOfLifeApp app = new GameOfLifeApp();
