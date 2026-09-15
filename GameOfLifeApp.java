@@ -314,6 +314,15 @@ public class GameOfLifeApp extends JFrame {
                 }
             }
         }
+        lastGeneration = generation;
+        previousState = new GameOfLife(game.numberOfRows(), game.numberOfColumns());
+        for (int row = 0; row < game.numberOfRows(); row++) {
+            for (int col = 0; col < game.numberOfColumns(); col++) {
+                if (game.cellAt(row, col)) {
+                    previousState.growCellAt(row, col);
+                }
+            }
+        }
         refreshDisplay();
         statusLabel.setText("Board randomized.");
     }
